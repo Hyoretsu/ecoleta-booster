@@ -45,7 +45,7 @@ const CreatePoint = () => {
  const history = useHistory();
 
  useEffect(() => {
-  navigator.geolocation.getCurrentPosition((position) => {
+  navigator.geolocation.getCurrentPosition(position => {
    const { latitude, longitude } = position.coords;
 
    setInitialPosition([latitude, longitude]);
@@ -53,14 +53,14 @@ const CreatePoint = () => {
  }, []);
 
  useEffect(() => {
-  api.get('items').then((response) => {
+  api.get('items').then(response => {
    setItems(response.data);
   });
  }, []);
 
  useEffect(() => {
-  axios.get<IBGEUFResponse[]>('https://servicodados.ibge.gov.br/api/v1/localidades/estados').then((response) => {
-   const ufInitials = response.data.map((uf) => uf.sigla);
+  axios.get<IBGEUFResponse[]>('https://servicodados.ibge.gov.br/api/v1/localidades/estados').then(response => {
+   const ufInitials = response.data.map(uf => uf.sigla);
 
    setUfs(ufInitials);
   });
@@ -73,8 +73,8 @@ const CreatePoint = () => {
 
   axios
    .get<IBGECityResponse[]>(`https://servicodados.ibge.gov.br/api/v1/localidades/estados/${selectedUf}/municipios`)
-   .then((response) => {
-    const cityNames = response.data.map((city) => city.nome);
+   .then(response => {
+    const cityNames = response.data.map(city => city.nome);
 
     setCities(cityNames);
    });
@@ -103,10 +103,10 @@ const CreatePoint = () => {
  }
 
  function handleSelectItem(id: number) {
-  const alreadySelected = selectedItems.findIndex((item) => item === id);
+  const alreadySelected = selectedItems.findIndex(item => item === id);
 
   if (alreadySelected >= 0) {
-   const filteredItems = selectedItems.filter((item) => item !== id);
+   const filteredItems = selectedItems.filter(item => item !== id);
 
    setSelectedItems(filteredItems);
   } else setSelectedItems([...selectedItems, id]);
@@ -196,7 +196,7 @@ const CreatePoint = () => {
        <label htmlFor="uf">Estado (UF)</label>
        <select name="uf" id="uf" value={selectedUf} onChange={handleSelectedUf}>
         <option value="0">Selecione uma UF</option>
-        {ufs.map((uf) => (
+        {ufs.map(uf => (
          <option key={uf} value={uf}>
           {uf}
          </option>
@@ -207,7 +207,7 @@ const CreatePoint = () => {
        <label htmlFor="city">Cidade</label>
        <select name="city" id="city" value={selectedCity} onChange={handleSelectedCity}>
         <option value="0">Selecione uma cidade</option>
-        {cities.map((city) => (
+        {cities.map(city => (
          <option key={city} value={city}>
           {city}
          </option>
@@ -224,7 +224,7 @@ const CreatePoint = () => {
      </legend>
 
      <ul className="items-grid">
-      {items.map((item) => (
+      {items.map(item => (
        <li key={item.id} onClick={() => handleSelectItem(item.id)}>
         <img src={item.image_url} alt={item.title} />
         <span>{item.title}</span>
